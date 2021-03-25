@@ -19,7 +19,7 @@ func (app *App) SendTemplateMessageWithMiniProgram(templateId, to, textColor str
 		}
 	}
 
-	c := Config.httpClient
+	c := conf.httpClient
 	postData := map[string]interface{}{
 		"touser":      to,
 		"template_id": templateId,

@@ -2,21 +2,22 @@ package wx_test
 
 import (
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/ssdo/wx"
 	"github.com/ssgo/config"
 	"testing"
-	"wx"
 )
 
 var testConfig = struct {
 	TemplateId string
-	Openid string
-	Apps map[string]*wx.AppConfig
+	Openid     string
+	Apps       map[string]*wx.AppConfig
 }{}
 
 func init() {
 	config.LoadConfig("test", &testConfig)
-	wx.Config.Apps = testConfig.Apps
-	wx.Init()
+	wx.Init(wx.Config{
+		Apps: testConfig.Apps,
+	})
 }
 
 func TestAccessToken(t *testing.T) {
