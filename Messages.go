@@ -1,5 +1,10 @@
 package wx
 
+import (
+	"github.com/ssgo/u"
+	"time"
+)
+
 func (app *App) SendTemplateMessage(templateId, to string, args map[string]string, url string) int {
 	return app.SendTemplateMessageWithMiniProgram(templateId, to, "", args, nil, url, "", "")
 }
@@ -54,4 +59,44 @@ func (app *App) SendTemplateMessageWithMiniProgram(templateId, to, textColor str
 	}
 
 	return result.Msgid
+}
+
+func (app *App) MakeTextMessage(from, to, text string) string {
+	return `<xml>
+  <ToUserName><![CDATA[` + to + `]]></ToUserName>
+  <FromUserName><![CDATA[` + from + `]]></FromUserName>
+  <CreateTime>` + u.String(time.Now().Unix()) + `</CreateTime>
+  <MsgType><![CDATA[text]]></MsgType>
+  <Content><![CDATA[` + text + `]]></Content>
+</xml>`
+}
+
+func (app *App) MakeImageMessage(from, to, mediaId string) string {
+	return `<xml>
+  <ToUserName><![CDATA[` + to + `]]></ToUserName>
+  <FromUserName><![CDATA[` + from + `]]></FromUserName>
+  <CreateTime>` + u.String(time.Now().Unix()) + `</CreateTime>
+  <MsgType><![CDATA[image]]></MsgType>
+  <Image>
+    <MediaId><![CDATA[` + mediaId + `]]></MediaId>
+  </Image>
+</xml>`
+}
+
+func (app *App) MakeNewsMessage(from, to, title, description, pic, url string) string {
+	return `<xml>
+  <ToUserName><![CDATA[` + to + `]]></ToUserName>
+  <FromUserName><![CDATA[` + from + `]]></FromUserName>
+  <CreateTime>` + u.String(time.Now().Unix()) + `</CreateTime>
+  <MsgType><![CDATA[news]]></MsgType>
+  <ArticleCount>1</ArticleCount>
+  <Articles>
+    <item>
+      <Title><![CDATA[` + title + `]]></Title>
+      <Description><![CDATA[` + description + `]]></Description>
+      <PicUrl><![CDATA[` + pic + `]]></PicUrl>
+      <Url><![CDATA[` + url + `]]></Url>
+    </item>
+  </Articles>
+</xml>`
 }
